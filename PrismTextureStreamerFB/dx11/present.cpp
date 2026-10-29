@@ -1,4 +1,4 @@
-#include "dx11.h"
+﻿#include "dx11.h"
 #include "../win32/win32.h"
 #include <MinHook/MinHook.h>
 #include "../scs_logging.h"
@@ -69,7 +69,15 @@ HRESULT hooked_present(IDXGISwapChain* SwapChain, UINT SyncInterval, UINT Flags)
         ImGui_ImplDX11_Init(device, context);
 
         ImGuiIO& io = ImGui::GetIO();
-        io.FontDefault = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 15.0f);
+        // Varsayilan aralik ğ, ı, ş, Ğ, İ, Ş harflerini icermez -> Turkce icin ekliyoruz
+        static const ImWchar turkish_ranges[] = {
+            0x0020, 0x00FF, // Temel Latin + Latin-1 (ç, ö, ü, Ç, Ö, Ü dahil)
+            0x011E, 0x011F, // Ğ ğ
+            0x0130, 0x0131, // İ ı
+            0x015E, 0x015F, // Ş ş
+            0
+        };
+        io.FontDefault = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 15.0f, nullptr, turkish_ranges);
         io.Fonts->Build();
 
         init = true;

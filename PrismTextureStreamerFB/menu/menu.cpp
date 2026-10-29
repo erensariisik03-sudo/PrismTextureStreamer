@@ -1,4 +1,4 @@
-#include "menu.h"
+﻿#include "menu.h"
 #include <d3d11.h>
 #include <map>
 
@@ -28,6 +28,16 @@ static bool IsWindowCloaked(HWND application_hwnd)
 	BOOL cloaked = FALSE;
 	HRESULT hr = DwmGetWindowAttribute(application_hwnd, DWMWA_CLOAKED, &cloaked, sizeof(cloaked));
 	return SUCCEEDED(hr) && cloaked != FALSE;
+}
+
+static std::string wide_to_utf8(const wchar_t* w)
+{
+	if (!w || !*w) return std::string();
+	int len = WideCharToMultiByte(CP_UTF8, 0, w, -1, nullptr, 0, nullptr, nullptr);
+	if (len <= 1) return std::string();
+	std::string out(len - 1, '\0');
+	WideCharToMultiByte(CP_UTF8, 0, w, -1, out.data(), len, nullptr, nullptr);
+	return out;
 }
 
 struct window_entry_t
@@ -63,7 +73,7 @@ void on_frame()
 
 	if (menu_visible) {
 		ImGui::SetNextWindowSizeConstraints(ImVec2(584, 208), ImVec2(FLT_MAX, FLT_MAX));
-		ImGui::Begin(("Prism3D Texture Streamer v" + std::string(g_version)).c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize);
+		ImGui::Begin(("Prism3D Ekran Yayıncısı (Türkçe) v" + std::string(g_version)).c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize);
 
 		static bool unsavedChanges = false;
 		static bool hasGps = false;
@@ -71,7 +81,7 @@ void on_frame()
 		// static bool hasGps = false; // More than 1 custom IS possible..
 
 		ImGui::BeginDisabled(hasGps);
-		if (ImGui::Button("Add Screen GPS"))
+		if (ImGui::Button("GPS Ekranı Ekle"))
 		{
 			unsavedChanges = true;
 
@@ -90,7 +100,7 @@ void on_frame()
 		ImGui::EndDisabled();
 		ImGui::SameLine();
 		ImGui::BeginDisabled(hasDash);
-		if (ImGui::Button("Add Screen Dashboard"))
+		if (ImGui::Button("Gösterge Paneli Ekle"))
 		{
 			unsavedChanges = true;
 
@@ -108,7 +118,7 @@ void on_frame()
 		}
 		ImGui::EndDisabled();
 		ImGui::SameLine();
-		if (ImGui::Button("Add Screen Custom"))
+		if (ImGui::Button("Özel Ekran Ekle"))
 		{
 			unsavedChanges = true;
 
@@ -132,7 +142,7 @@ void on_frame()
 
 		ImGui::BeginDisabled(!unsavedChanges);
 		bool justSaved = false;
-		if (ImGui::Button("Apply Unsaved Changes"))
+		if (ImGui::Button("Değişiklikleri Uygula"))
 		{
 			prism::string cmd("game");
 			prism::execute_command::call(&cmd, -1);
@@ -145,6 +155,8 @@ void on_frame()
 		ImGui::EndDisabled();
 
 		if (unsavedChanges || justSaved) ImGui::PopStyleColor(3);
+
+		ImGui::TextDisabled("Menüyü aç/kapat: Ctrl+F8  |  Kaynak seçtikten sonra 'Değişiklikleri Uygula'ya basın");
 
 		std::map<std::string, window_entry_t> applications; // window title, application name, application hwnd}
 		EnumWindows([](HWND application_hwnd, LPARAM lParam) -> BOOL {
@@ -163,17 +175,15 @@ void on_frame()
 			std::string windowTitle;
 			bool hasTitle{};
 
-			int titleLen = GetWindowTextLengthA(application_hwnd);
+			int titleLen = GetWindowTextLengthW(application_hwnd);
 			if (titleLen != 0)
 			{
-				hasTitle = true;
-
-				windowTitle = std::string(titleLen + 1, '\0');
-				GetWindowTextA(application_hwnd, windowTitle.data(), titleLen + 1);
-				windowTitle.resize(titleLen);
+				std::wstring wideTitle(titleLen + 1, L'\0');
+				GetWindowTextW(application_hwnd, wideTitle.data(), titleLen + 1);
+				wideTitle.resize(wcslen(wideTitle.c_str()));
+				windowTitle = wide_to_utf8(wideTitle.c_str());
+				hasTitle = !windowTitle.empty();
 			}
-
-
 
 			std::string applicationName;
 
@@ -183,12 +193,12 @@ void on_frame()
 			HANDLE hProc = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, applicationPID);
 			if (!hProc) return TRUE; // Continue, dont add if no process name
 
-			char path[MAX_PATH]{};
+			wchar_t path[MAX_PATH]{};
 			DWORD size = MAX_PATH;
-			QueryFullProcessImageNameA(hProc, 0, path, &size);
+			QueryFullProcessImageNameW(hProc, 0, path, &size);
 			CloseHandle(hProc);
 
-			applicationName = std::string(path);
+			applicationName = wide_to_utf8(path);
 
 			auto pos = applicationName.rfind('\\');
 			applicationName = pos != std::string::npos ? applicationName.substr(pos + 1) : applicationName;
@@ -220,7 +230,7 @@ void on_frame()
 					hasDash = true;
 
 
-				std::string name = isGps ? "GPS##" : (isDash ? "Dashboard##" : "Custom");
+				std::string name = isGps ? "GPS##" : (isDash ? "Gösterge Paneli##" : "Özel Ekran ");
 				if (ImGui::CollapsingHeader((name + std::to_string(i)).c_str()))
 				{
 					ImGui::PushID(i);
@@ -233,7 +243,7 @@ void on_frame()
 
 							ImGui::TableNextRow();
 							ImGui::TableSetColumnIndex(0);
-							ImGui::TextColored(ImVec4(0.55f, 0.55f, 0.55f, 1.0f), "Game Screen Texture");
+							ImGui::TextColored(ImVec4(0.55f, 0.55f, 0.55f, 1.0f), "Oyundaki Ekran Dokusu");
 							ImGui::TableSetColumnIndex(1);
 							ImGui::SetNextItemWidth(-FLT_MIN);
 							ImGui::InputText("##original_texture", &screen.original_texture);
@@ -241,7 +251,7 @@ void on_frame()
 
 							ImGui::TableNextRow();
 							ImGui::TableSetColumnIndex(0);
-							ImGui::TextColored(ImVec4(0.55f, 0.55f, 0.55f, 1.0f), "Unqiue Override Texture");
+							ImGui::TextColored(ImVec4(0.55f, 0.55f, 0.55f, 1.0f), "Yerine Geçecek Doku (benzersiz)");
 							ImGui::TableSetColumnIndex(1);
 							ImGui::SetNextItemWidth(-FLT_MIN);
 							ImGui::InputText("##override_texture", &screen.override_texture);
@@ -249,7 +259,7 @@ void on_frame()
 
 							ImGui::TableNextRow();
 							ImGui::TableSetColumnIndex(0);
-							ImGui::TextColored(ImVec4(0.55f, 0.55f, 0.55f, 1.0f), "Override Texture Width");
+							ImGui::TextColored(ImVec4(0.55f, 0.55f, 0.55f, 1.0f), "Doku Genişliği");
 							ImGui::TableSetColumnIndex(1);
 							ImGui::SetNextItemWidth(-FLT_MIN);
 							ImGui::InputScalar("##override_texture_size_w", ImGuiDataType_U32, &screen.override_texture_size_w);
@@ -257,7 +267,7 @@ void on_frame()
 
 							ImGui::TableNextRow();
 							ImGui::TableSetColumnIndex(0);
-							ImGui::TextColored(ImVec4(0.55f, 0.55f, 0.55f, 1.0f), "Override Texture Height");
+							ImGui::TextColored(ImVec4(0.55f, 0.55f, 0.55f, 1.0f), "Doku Yüksekliği");
 							ImGui::TableSetColumnIndex(1);
 							ImGui::SetNextItemWidth(-FLT_MIN);
 							ImGui::InputScalar("##override_texture_size_h", ImGuiDataType_U32, &screen.override_texture_size_h);
@@ -266,7 +276,7 @@ void on_frame()
 						}
 					}
 
-					ImGui::Text("Resolution");
+					ImGui::Text("Çözünürlük");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(80.0f);
 					if (ImGui::InputScalar("##res_w", ImGuiDataType_U32, &screen.targetLiveTextureWidth)) unsavedChanges = true;
@@ -277,7 +287,7 @@ void on_frame()
 					if (ImGui::InputScalar("##res_h", ImGuiDataType_U32, &screen.targetLiveTextureHeight)) unsavedChanges = true;
 
 					ImGui::BeginDisabled(!screen.legacyCapture);
-					ImGui::Text("Framerate");
+					ImGui::Text("Kare hızı (FPS)");
 					ImGui::SameLine();
 					ImGui::SetNextItemWidth(160.0f);
 					uint8_t fps_min = 1, fps_max = 255;
@@ -286,11 +296,11 @@ void on_frame()
 					}
 					ImGui::EndDisabled();
 
-					ImGui::Checkbox("Legacy Capture", &screen.legacyCapture);
+					ImGui::Checkbox("Eski Yakalama Yöntemi", &screen.legacyCapture);
 					if (ImGui::IsItemHovered())
 					{
 						ImGui::BeginTooltip();
-						ImGui::Text("Not Recommended | Only use if capture fails");
+						ImGui::Text("Önerilmez | Sadece yakalama çalışmazsa kullanın");
 						ImGui::EndTooltip();
 					}
 
@@ -301,7 +311,7 @@ void on_frame()
 						screen.source_application_hwnd = nullptr;
 					}
 
-					const char* preview = screen.source_application_name.empty() ? "Select Source..." : screen.source_application_name.c_str();
+					const char* preview = screen.source_application_name.empty() ? "Kaynak Seç..." : screen.source_application_name.c_str();
 
 					bool changed = false;
 					if (ImGui::BeginCombo("##appcombo", preview))
@@ -340,22 +350,22 @@ void on_frame()
 							screen.source_application_display_name.clear();
 							screen.source_application_name.clear();
 							screen.source_application_hwnd = nullptr;
-							ImGui::OpenPopup("Source Error");
+							ImGui::OpenPopup("Kaynak Hatası");
 						}
 
 						g_screen_source_creation_in_progress = false;
 					}
 
-					if (ImGui::BeginPopupModal("Source Error", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-						ImGui::TextWrapped("Failed to use source, check the console for more details");
-						if (ImGui::Button("OK", ImVec2(120, 0))) {
+					if (ImGui::BeginPopupModal("Kaynak Hatası", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+						ImGui::TextWrapped("Kaynak kullanılamadı. Ayrıntılar için oyunun log dosyasına bakın.");
+						if (ImGui::Button("Tamam", ImVec2(120, 0))) {
 							ImGui::CloseCurrentPopup();
 						}
 						ImGui::EndPopup();
 					}
 
 
-					if (ImGui::Button("Remove")) {
+					if (ImGui::Button("Kaldır")) {
 
 						if (screen.liveTexture) screen.liveTexture->Release();
 						if (screen.immediateContext) screen.immediateContext->Release();
@@ -363,7 +373,7 @@ void on_frame()
 						to_remove.push_back(i);
 					}
 					ImGui::SameLine();
-					if (ImGui::Button("Flip Screen")) {
+					if (ImGui::Button("Görüntüyü Ters Çevir")) {
 						screen.flipVertical = !screen.flipVertical;
 					}
 
