@@ -160,7 +160,7 @@ namespace bmem
 					return mem; // valid near allocation
 				}
 
-				// Not actually near — free and continue
+				// Not actually near - free and continue
 				VirtualFree(mem, 0, MEM_RELEASE);
 			}
 		}
