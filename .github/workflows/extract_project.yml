@@ -15,10 +15,20 @@ jobs:
       - name: AssetRipper indir
         run: |
           mkdir ar && cd ar
-          gh release download --repo AssetRipper/AssetRipper \
-            --pattern "AssetRipper_linux_x64.zip" --clobber
-          unzip -q AssetRipper_linux_x64.zip
-          chmod +x AssetRipper.GUI.Free
+          gh release view --repo AssetRipper/AssetRipper --json tagName,assets \
+            --jq '.tagName, (.assets[].name)'
+          NAME=$(gh release view --repo AssetRipper/AssetRipper --json assets \
+            --jq '[.assets[].name | select(test("linux.*(x64|amd64)"; "i"))][0]')
+          echo "Secilen: $NAME"
+          gh release download --repo AssetRipper/AssetRipper --pattern "$NAME" --clobber
+          case "$NAME" in
+            *.zip) unzip -q "$NAME" ;;
+            *.tar.gz|*.tgz) tar xzf "$NAME" ;;
+          esac
+          BIN=$(find . -maxdepth 2 -type f -name "AssetRipper*" ! -name "*.zip" ! -name "*.tar.gz" ! -name "*.dll" ! -name "*.pdb" ! -name "*.json" | head -1)
+          echo "Calistirilabilir: $BIN"
+          chmod +x "$BIN"
+          echo "$PWD/$BIN" > ../ar_bin.txt
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -29,7 +39,7 @@ jobs:
       - name: AssetRipper calistir (headless)
         run: |
           cd ar
-          ./AssetRipper.GUI.Free --port 5555 --headless > ../ar.log 2>&1 &
+          "$(cat ../ar_bin.txt)" --port 5555 --headless > ../ar.log 2>&1 &
           for i in $(seq 1 60); do
             curl -s localhost:5555 >/dev/null && break; sleep 2
           done
