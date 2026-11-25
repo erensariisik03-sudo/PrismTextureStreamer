@@ -1,0 +1,28 @@
+name: Hazirla ve prepared dalina gonder
+
+# Unity Build Automation (bulut) 'prepared' dalini derler.
+# Bu workflow prepare.py'yi calistirir ve sonucu 'prepared' dalina yazar.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unity 4.7 -> 6 hazirlik
+        run: python3 tools/prepare.py ExportedProject
+
+      - name: prepared dalina yaz
+        run: |
+          git config user.name "ci"
+          git config user.email "ci@users.noreply.github.com"
+          git checkout -B prepared
+          git add -A
+          git commit -m "prepared: Unity 6 gecis" || true
+          git push -f origin prepared
