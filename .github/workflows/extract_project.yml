@@ -38,16 +38,26 @@ jobs:
 
       - name: AssetRipper calistir (headless)
         run: |
-          cd ar
-          "$(cat ../ar_bin.txt)" --port 5555 --headless > ../ar.log 2>&1 &
+          BIN="$(cat ar_bin.txt)"
+          cd "$(dirname "$BIN")"
+          "$BIN" --help 2>&1 | head -40 || true
+          echo "=== baslatiliyor ==="
+          "$BIN" --port 5555 --headless > "$GITHUB_WORKSPACE/ar.log" 2>&1 &
+          PID=$!
+          UP=0
           for i in $(seq 1 60); do
-            curl -s localhost:5555 >/dev/null && break; sleep 2
+            if curl -s -o /dev/null localhost:5555; then UP=1; break; fi
+            kill -0 $PID 2>/dev/null || break
+            sleep 2
           done
+          echo "=== ar.log ==="; cat "$GITHUB_WORKSPACE/ar.log" | head -60
+          [ "$UP" = 1 ] || { echo "SUNUCU ACILMADI"; exit 1; }
           curl -s -X POST localhost:5555/LoadFolder --data-urlencode "path=$GITHUB_WORKSPACE/raw/assets/bin/Data"
           curl -s -X POST localhost:5555/Export/UnityProject \
             --data-urlencode "path=$GITHUB_WORKSPACE/unity_project" \
             --data-urlencode "createSubfolder=false"
           sleep 5
+          echo "=== ar.log (son) ==="; tail -n 60 "$GITHUB_WORKSPACE/ar.log"
         timeout-minutes: 60
 
       - name: Log
