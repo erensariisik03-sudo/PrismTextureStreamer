@@ -1,0 +1,51 @@
+name: AssetRipper Project
+
+# Repo kokune game.apk koy. Calistir: Actions > AssetRipper Project > Run workflow
+# Cikti: "unity_project" artifact'i (sahneler, prefab, materyal, doku, mesh).
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: AssetRipper indir
+        run: |
+          mkdir ar && cd ar
+          gh release download --repo AssetRipper/AssetRipper \
+            --pattern "AssetRipper_linux_x64.zip" --clobber
+          unzip -q AssetRipper_linux_x64.zip
+          chmod +x AssetRipper.GUI.Free
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: APK ac
+        run: |
+          mkdir -p raw && unzip -q game.apk -d raw
+
+      - name: AssetRipper calistir (headless)
+        run: |
+          cd ar
+          ./AssetRipper.GUI.Free --port 5555 --headless > ../ar.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl -s localhost:5555 >/dev/null && break; sleep 2
+          done
+          curl -s -X POST localhost:5555/LoadFolder --data-urlencode "path=$GITHUB_WORKSPACE/raw/assets/bin/Data"
+          curl -s -X POST localhost:5555/Export/UnityProject \
+            --data-urlencode "path=$GITHUB_WORKSPACE/unity_project" \
+            --data-urlencode "createSubfolder=false"
+          sleep 5
+        timeout-minutes: 60
+
+      - name: Log
+        if: always()
+        run: tail -n 80 ar.log || true; du -sh unity_project || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: unity_project
+          path: unity_project/
+          retention-days: 7
