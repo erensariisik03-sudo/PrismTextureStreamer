@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &147589
+GameObject:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - 4: {fileID: 479954}
+  - 114: {fileID: 11409266}
+  m_Layer: 0
+  m_Name: ECS_CollectableList_City_Baylon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &479954
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147589}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 709.59436, y: -116.12555, z: -249.80249}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11409266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc8f26ade4bb192b4864a10f985f83be, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  categoryName: collection_city
+  categoryIconName: icon_city
+  listKind: 2
+  zone: 1
+  collectableType: 1
+  collectionID: 1
+  rewardID: 6
+  totalCollectables: 10
+  numberCollected: 0
+  collectablesList:
+  - {fileID: 11409266, guid: 7be7045222f093747bccd45424e43069, type: 2}
+  - {fileID: 11409266, guid: afc47c7df3b845c40bfa4bbeb8283ebc, type: 2}
+  - {fileID: 11409266, guid: f2ee012ed55cfe9439b31ae49c145da6, type: 2}
+  - {fileID: 11409266, guid: 71000e4b524a9b44aa89b1f1aafaf646, type: 2}
+  - {fileID: 11409266, guid: c75aae0e124492b49a8cbc17adcb09ae, type: 2}
+  - {fileID: 11409266, guid: 3ab201c96f0798b4ca1ebd722b3b76c9, type: 2}
+  - {fileID: 11409266, guid: 25571b2c3311cea4aa5cc7fea897f7dd, type: 2}
+  - {fileID: 11409266, guid: 73a74ba6665c3e6419a90f58a0d27369, type: 2}
+  - {fileID: 11409266, guid: 0fef698a933eb11409c22053811657e2, type: 2}
+  - {fileID: 11409266, guid: 39b6edb32cde35d469553c4b49c7a55b, type: 2}
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 147589}
+  m_IsPrefabParent: 1
+  m_IsExploded: 0

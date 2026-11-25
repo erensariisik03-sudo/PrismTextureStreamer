@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cced7019a5f5d9570f88fdc17461e50, type: 3}
+  m_Name: Settings
+  m_EditorClassIdentifier:
+  TotalMessagesSubmitted: 0
+  TotalMessagesFailed: 0
+  DesignMessagesSubmitted: 0
+  DesignMessagesFailed: 0
+  QualityMessagesSubmitted: 0
+  QualityMessagesFailed: 0
+  ErrorMessagesSubmitted: 0
+  ErrorMessagesFailed: 0
+  BusinessMessagesSubmitted: 0
+  BusinessMessagesFailed: 0
+  UserMessagesSubmitted: 0
+  UserMessagesFailed: 0
+  CustomArea:
+  gameKey:
+  - bd661ecbba29def2f58f8ab14d1fef31
+  secretKey:
+  - 3d8e29727873b5499f2760536fbd116a43b49c8f
+  Build:
+  - 4.17.6
+  SelectedPlatformStudio:
+  - AxesInMotion
+  SelectedPlatformGame:
+  - Extreme Car Driving Simulator
+  SelectedPlatformGameID: cbc00000
+  SelectedStudio: 01000000
+  SelectedGame: 05000000
+  NewVersion: 5.0.4
+  Changes: "5.0.4\n- added missing playmaker actions\n\n5.0.3\n- fixed playmaker errors\n\n5.0.2\n- changed log warnings to log errors for when notifying the user about not having initialized the SDK before trying to send events\n\n5.0.1\n- fixed compile error for ios\n\n5.0.0\n- added command center functionality\n- fixed various bugs\n\n4.0.6\n- removed mac sqlite library so local installed one is used (mac)\n\n4.0.5\n- fixes to not trying to send events if SDK has not been initialized yet\n\n4.0.4\n- fixes to android session handling\n- added custom dimensions to design and error events\n- fixes to sqlite db path for windows and linux platforms\n\n4.0.3\n- small uwp bug fix (uwp)\n\n4.0.2\n- small editor bug fixes for stop showing log warnings after calling initialize function\n\n4.0.1\n- small update for wehn signing up in editor\n\n4.0.0\n- dumped major version to emphasize the need to use manual initialization of the SDK now\n- added log warnings to warn if the SDK has not been manually initialized before sending events\n\n3.11.3\n- fixed session length bug\n- fixed not allowing to send event when session is not started\n\n3.11.2\n- updated android google play libraries (android)\n\n3.11.1\n- various bug fixes in android native library (android)\n\n3.11.0\n- ui updated for sign up dialog\n- PLEASE NOTE: initialization is now manual and not automatic anymore"
+  SignUpOpen: 0
+  FirstName:
+  LastName:
+  StudioName: AxesInMotion
+  GameName: Extreme Car Driving Simulator
+  PasswordConfirm:
+  EmailOptIn: 1
+  EmailGA: pgarcia.aim@gmail.com
+  IntroScreen: 0
+  InfoLogEditor: 1
+  InfoLogBuild: 1
+  VerboseLogBuild: 0
+  UseManualSessionHandling: 0
+  SendExampleGameDataToMyGame: 0
+  InternetConnectivity: 0
+  CustomDimensions01: []
+  CustomDimensions02: []
+  CustomDimensions03: []
+  ResourceItemTypes: []
+  ResourceCurrencies: []
+  LastCreatedGamePlatform: -1
+  Platforms: 0b000000
+  CurrentInspectorState: 1
+  ClosedHints:
+  DisplayHints: 0
+  DisplayHintsScrollState: {x: 0, y: 0}
+  Logo: {fileID: 2800000, guid: 9fb66beecc9a96f4dab0a64640e7f64a, type: 3}
+  UpdateIcon: {fileID: 2800000, guid: 43c725c004c48dc42b62c53881a59097, type: 3}
+  InfoIcon: {fileID: 2800000, guid: d8072d3a1c618f54ca4c44a2d00d3448, type: 3}
+  DeleteIcon: {fileID: 2800000, guid: 1de70084ca5ccb048ba09198ad782ba3, type: 3}
+  GameIcon: {fileID: 2800000, guid: 0f4ef40c7cdb7074b87693fc2a6fc411, type: 3}
+  HomeIcon: {fileID: 2800000, guid: 141c62900bd7e69458431e560e991aed, type: 3}
+  InstrumentIcon: {fileID: 2800000, guid: 3263aa4fa25846e4d9eb372227498d11, type: 3}
+  QuestionIcon: {fileID: 2800000, guid: 7a8e3a8c36ea72d4dbb1c4d37785bc1c, type: 3}
+  UserIcon: {fileID: 2800000, guid: b2cc72a320c0adb4ab3d655f7d4f7955, type: 3}
+  AmazonIcon: {fileID: 0}
+  GooglePlayIcon: {fileID: 0}
+  iosIcon: {fileID: 0}
+  macIcon: {fileID: 0}
+  windowsPhoneIcon: {fileID: 0}
+  UseCustomId: 0
+  UsePlayerSettingsBundleVersion: 0
+  SubmitErrors: 1
+  MaxErrorCount: 10
+  SubmitFpsAverage: 0
+  SubmitFpsCritical: 0
+  FpsCriticalThreshold: 20
+  FpsCirticalSubmitInterval: 1
+  PlatformFoldOut: 01
+  CustomDimensions01FoldOut: 0
+  CustomDimensions02FoldOut: 0
+  CustomDimensions03FoldOut: 0
+  ResourceItemTypesFoldOut: 0
+  ResourceCurrenciesFoldOut: 0

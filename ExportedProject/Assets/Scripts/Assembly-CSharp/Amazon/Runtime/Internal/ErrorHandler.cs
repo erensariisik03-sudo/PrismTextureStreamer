@@ -1,0 +1,120 @@
+using System;
+using System.Collections.Generic;
+using System.Net;
+using Amazon.Runtime.Internal.Util;
+using Amazon.Util.Internal;
+
+namespace Amazon.Runtime.Internal
+{
+	public class ErrorHandler : PipelineHandler
+	{
+		private IDictionary<Type, IExceptionHandler> _exceptionHandlers;
+
+		public IDictionary<Type, IExceptionHandler> ExceptionHandlers
+		{
+			get
+			{
+				return _exceptionHandlers;
+			}
+			protected set
+			{
+				_exceptionHandlers = value;
+			}
+		}
+
+		public ErrorHandler(ILogger logger)
+		{
+			Logger = logger;
+			_exceptionHandlers = new Dictionary<Type, IExceptionHandler>
+			{
+				{
+					typeof(WebException),
+					new WebExceptionHandler(Logger)
+				},
+				{
+					typeof(HttpErrorResponseException),
+					new HttpErrorResponseExceptionHandler(Logger)
+				}
+			};
+		}
+
+		public override void InvokeSync(IExecutionContext executionContext)
+		{
+			try
+			{
+				base.InvokeSync(executionContext);
+			}
+			catch (Exception exception)
+			{
+				DisposeReponse(executionContext.ResponseContext);
+				if (ProcessException(executionContext, exception))
+				{
+					throw;
+				}
+			}
+		}
+
+		protected override void InvokeAsyncCallback(IAsyncExecutionContext executionContext)
+		{
+			IAsyncResponseContext responseContext = executionContext.ResponseContext;
+			Exception exception = responseContext.AsyncResult.Exception;
+			if (exception != null)
+			{
+				try
+				{
+					DisposeReponse(executionContext.ResponseContext);
+					if (!ProcessException(ExecutionContext.CreateFromAsyncContext(executionContext), exception))
+					{
+						responseContext.AsyncResult.Exception = null;
+					}
+				}
+				catch (Exception exception2)
+				{
+					responseContext.AsyncResult.Exception = exception2;
+				}
+			}
+			base.InvokeAsyncCallback(executionContext);
+		}
+
+		private static void DisposeReponse(IResponseContext responseContext)
+		{
+			if (responseContext.HttpResponse != null && responseContext.HttpResponse.ResponseBody != null)
+			{
+				responseContext.HttpResponse.ResponseBody.Dispose();
+			}
+		}
+
+		private bool ProcessException(IExecutionContext executionContext, Exception exception)
+		{
+			Logger.Error(exception, "An exception of type {0} was handled in ErrorHandler.", exception.GetType().Name);
+			executionContext.RequestContext.Metrics.AddProperty(Metric.Exception, exception);
+			Type type = exception.GetType();
+			ITypeInfo typeInfo = TypeFactory.GetTypeInfo(exception.GetType());
+			do
+			{
+				IExceptionHandler value = null;
+				if (ExceptionHandlers.TryGetValue(type, out value))
+				{
+					return value.Handle(executionContext, exception);
+				}
+				type = typeInfo.BaseType;
+				typeInfo = TypeFactory.GetTypeInfo(typeInfo.BaseType);
+			}
+			while (type != typeof(Exception));
+			return true;
+		}
+	}
+	public class ErrorHandler<T> : ErrorHandler where T : AmazonServiceException, new()
+	{
+		public ErrorHandler(ILogger logger)
+			: base(logger)
+		{
+			Logger = logger;
+			base.ExceptionHandlers = new Dictionary<Type, IExceptionHandler> { 
+			{
+				typeof(UnityHttpErrorResponseException),
+				new UnityHttpErrorResponseExceptionHandler<T>(Logger)
+			} };
+		}
+	}
+}
