@@ -24,8 +24,10 @@ jobs:
           case "$NAME" in
             *.zip) unzip -q "$NAME" ;;
             *.tar.gz|*.tgz) tar xzf "$NAME" ;;
+            *.tar.xz) tar xJf "$NAME" ;;
           esac
-          BIN=$(find . -maxdepth 2 -type f -name "AssetRipper*" ! -name "*.zip" ! -name "*.tar.gz" ! -name "*.dll" ! -name "*.pdb" ! -name "*.json" | head -1)
+          BIN=$(find . -maxdepth 2 -type f -name "AssetRipper*" ! -name "*.zip" ! -name "*.tar.*" ! -name "*.tgz" ! -name "*.dll" ! -name "*.pdb" ! -name "*.json" | head -1)
+          ls -la . | head -30
           echo "Calistirilabilir: $BIN"
           chmod +x "$BIN"
           echo "$PWD/$BIN" > ../ar_bin.txt
