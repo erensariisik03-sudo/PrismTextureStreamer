@@ -111,7 +111,7 @@ namespace AxesInMotion.Network
 			{
 				Object.DestroyImmediate(obj2);
 			}
-			Object.DestroyImmediate(base.rigidbody);
+			Object.DestroyImmediate(base.GetComponent<Rigidbody>());
 			base.gameObject.GetComponent<CarControl>().enabled = false;
 			base.gameObject.GetComponent<CarCameras>().enabled = false;
 			base.gameObject.GetComponent<CarSettings>().enabled = false;

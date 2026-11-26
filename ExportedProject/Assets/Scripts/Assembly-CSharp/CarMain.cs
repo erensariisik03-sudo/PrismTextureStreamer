@@ -106,7 +106,7 @@ public class CarMain : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.R) && !flag)
 		{
-			Application.LoadLevel(0);
+			UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 		}
 		if (Input.GetKeyDown(KeyCode.PageUp))
 		{

@@ -34,20 +34,20 @@ public class DefaultPreviewButton : EventDispatcher
 
 	private void Awake()
 	{
-		if (base.audio == null)
+		if (base.GetComponent<AudioSource>() == null)
 		{
 			base.gameObject.AddComponent<AudioSource>();
-			base.audio.clip = sound;
-			base.audio.Stop();
+			base.GetComponent<AudioSource>().clip = sound;
+			base.GetComponent<AudioSource>().Stop();
 		}
-		base.renderer.material = new Material(base.renderer.material);
+		base.GetComponent<Renderer>().material = new Material(base.GetComponent<Renderer>().material);
 	}
 
 	public void DisabledButton()
 	{
 		if (disabledTexture != null)
 		{
-			base.renderer.material.mainTexture = disabledTexture;
+			base.GetComponent<Renderer>().material.mainTexture = disabledTexture;
 		}
 		IsDisabled = true;
 	}
@@ -56,7 +56,7 @@ public class DefaultPreviewButton : EventDispatcher
 	{
 		if (disabledTexture != null)
 		{
-			base.renderer.material.mainTexture = normalTexture;
+			base.GetComponent<Renderer>().material.mainTexture = normalTexture;
 		}
 		IsDisabled = false;
 	}
@@ -75,11 +75,11 @@ public class DefaultPreviewButton : EventDispatcher
 	{
 		if (IsDisabled)
 		{
-			base.audio.PlayOneShot(disabledsound);
+			base.GetComponent<AudioSource>().PlayOneShot(disabledsound);
 			return;
 		}
-		base.audio.PlayOneShot(sound);
-		base.renderer.material.mainTexture = pressedTexture;
+		base.GetComponent<AudioSource>().PlayOneShot(sound);
+		base.GetComponent<Renderer>().material.mainTexture = pressedTexture;
 		dispatch("click");
 		CancelInvoke("OnTimeoutPress");
 		Invoke("OnTimeoutPress", 0.1f);
@@ -87,6 +87,6 @@ public class DefaultPreviewButton : EventDispatcher
 
 	private void OnTimeoutPress()
 	{
-		base.renderer.material.mainTexture = normalTexture;
+		base.GetComponent<Renderer>().material.mainTexture = normalTexture;
 	}
 }

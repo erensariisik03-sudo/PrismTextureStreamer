@@ -77,19 +77,19 @@ public class CarAntiRollBar : MonoBehaviour
 		m_antiRollForce = m_antiRollRatio * AntiRoll * AntiRollFactor;
 		if (groundHit || StrictMode == 2)
 		{
-			base.rigidbody.AddForceAtPosition(WheelL.transform.up * (0f - m_antiRollForce), WheelL.transform.position);
+			base.GetComponent<Rigidbody>().AddForceAtPosition(WheelL.transform.up * (0f - m_antiRollForce), WheelL.transform.position);
 		}
 		else if (StrictMode == 1)
 		{
-			base.rigidbody.AddForce(WheelL.transform.up * (0f - m_antiRollForce));
+			base.GetComponent<Rigidbody>().AddForce(WheelL.transform.up * (0f - m_antiRollForce));
 		}
 		if (groundHit2 || StrictMode == 2)
 		{
-			base.rigidbody.AddForceAtPosition(WheelR.transform.up * m_antiRollForce, WheelR.transform.position);
+			base.GetComponent<Rigidbody>().AddForceAtPosition(WheelR.transform.up * m_antiRollForce, WheelR.transform.position);
 		}
 		else if (StrictMode == 1)
 		{
-			base.rigidbody.AddForce(WheelL.transform.up * m_antiRollForce);
+			base.GetComponent<Rigidbody>().AddForce(WheelL.transform.up * m_antiRollForce);
 		}
 	}
 

@@ -13,7 +13,7 @@ public class Lifeguard : MonoBehaviour
 
 	private void OnEnable()
 	{
-		myRigidbody = base.rigidbody;
+		myRigidbody = base.GetComponent<Rigidbody>();
 		myTransform = base.transform;
 		isLifeguardActive = true;
 		StartCoroutine(CheckYPosition());

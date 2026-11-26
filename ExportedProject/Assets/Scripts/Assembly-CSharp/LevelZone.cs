@@ -76,7 +76,7 @@ public class LevelZone : MonoBehaviour
 		{
 			MySingleton<Manager>.Instance.levelZone = this;
 		}
-		Application.LoadLevelAdditive(nameSceneZone);
+		UnityEngine.SceneManagement.SceneManager.LoadScene(nameSceneZone, UnityEngine.SceneManagement.LoadSceneMode.Additive);
 		if (MySingleton<Manager>.Instance.gameMode == Manager.GameMode.Multiplayer)
 		{
 			MySingleton<Manager>.Instance.gameLogic.SendMessage("DisableOfflineElements", null, SendMessageOptions.DontRequireReceiver);
@@ -213,7 +213,7 @@ public class LevelZone : MonoBehaviour
 				yield return null;
 				MySingleton<Manager>.Instance.gameLogic.ResetCarInput();
 				yield return null;
-				Application.LoadLevelAdditive(nameSceneZone);
+				UnityEngine.SceneManagement.SceneManager.LoadScene(nameSceneZone, UnityEngine.SceneManagement.LoadSceneMode.Additive);
 				statusLevel = StatusLevel.Loaded;
 				yield return null;
 				alreadyInstalled = true;
@@ -224,7 +224,7 @@ public class LevelZone : MonoBehaviour
 		}
 		else
 		{
-			AsyncOperation lAsync = Application.LoadLevelAdditiveAsync(nameSceneZone);
+			AsyncOperation lAsync = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(nameSceneZone, UnityEngine.SceneManagement.LoadSceneMode.Additive);
 			if (needMiniLoading)
 			{
 				MySingleton<Manager>.Instance.gameLogic.guiLogic.ShowMiniLoading();

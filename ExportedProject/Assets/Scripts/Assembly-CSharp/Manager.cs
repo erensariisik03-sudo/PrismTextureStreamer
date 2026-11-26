@@ -445,7 +445,7 @@ public class Manager : MySingleton<Manager>
 			}
 			SettingsManager.SetBool("keyCarsNeedFirstLoad", false);
 		}
-		Application.LoadLevelAsync(1);
+		UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(1);
 	}
 
 	public void AdsStart()

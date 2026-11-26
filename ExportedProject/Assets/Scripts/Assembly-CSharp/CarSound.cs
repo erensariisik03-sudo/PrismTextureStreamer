@@ -278,7 +278,7 @@ public class CarSound : MonoBehaviour
 		}
 		if ((bool)VelocityAudio)
 		{
-			ProcessContinuousAudio(VelocityAudio, base.rigidbody.velocity.magnitude, velocityMin, velocityMax, velocityMinPitch, velocityMaxPitch, velocityMinVolume, velocityMaxVolume);
+			ProcessContinuousAudio(VelocityAudio, base.GetComponent<Rigidbody>().velocity.magnitude, velocityMin, velocityMax, velocityMinPitch, velocityMaxPitch, velocityMinVolume, velocityMaxVolume);
 		}
 		float num4 = 0f;
 		float num5 = 0f;

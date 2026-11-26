@@ -228,12 +228,12 @@ public class TSSimpleCar : MonoBehaviour
 		}
 		if (!body)
 		{
-			if (!base.rigidbody)
+			if (!base.GetComponent<Rigidbody>())
 			{
 				GetComponent<TSCarLocomotionSwitcher>().SwitchToNoPhysics();
 				return;
 			}
-			body = base.rigidbody;
+			body = base.GetComponent<Rigidbody>();
 		}
 		if (!(CoM != null))
 		{

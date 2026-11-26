@@ -110,7 +110,7 @@ internal class PhotonHandler : Photon.MonoBehaviour, IPhotonPeerListener
 	protected void OnLevelWasLoaded(int level)
 	{
 		PhotonNetwork.networkingPeer.NewSceneLoaded();
-		PhotonNetwork.networkingPeer.SetLevelInPropsIfSynced(Application.loadedLevelName);
+		PhotonNetwork.networkingPeer.SetLevelInPropsIfSynced(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 	}
 
 	protected void OnJoinedRoom()
@@ -120,7 +120,7 @@ internal class PhotonHandler : Photon.MonoBehaviour, IPhotonPeerListener
 
 	protected void OnCreatedRoom()
 	{
-		PhotonNetwork.networkingPeer.SetLevelInPropsIfSynced(Application.loadedLevelName);
+		PhotonNetwork.networkingPeer.SetLevelInPropsIfSynced(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 	}
 
 	public static void StartFallbackSendAckThread()

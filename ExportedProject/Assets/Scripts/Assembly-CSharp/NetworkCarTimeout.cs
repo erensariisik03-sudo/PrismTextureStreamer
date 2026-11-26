@@ -25,7 +25,7 @@ public class NetworkCarTimeout : NetworkBehaviour
 	{
 		if (base.isMine)
 		{
-			if (base.rigidbody.velocity.sqrMagnitude > velocityThreshold || lastTimeUpdated == 0f)
+			if (base.GetComponent<Rigidbody>().velocity.sqrMagnitude > velocityThreshold || lastTimeUpdated == 0f)
 			{
 				lastTimeUpdated = Time.unscaledTime;
 			}

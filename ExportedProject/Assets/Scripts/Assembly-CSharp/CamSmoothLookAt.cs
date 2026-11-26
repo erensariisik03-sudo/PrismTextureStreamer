@@ -35,9 +35,9 @@ public class CamSmoothLookAt : MonoBehaviour
 			m_fov = m_Camera.fieldOfView;
 			m_savedFov = m_Camera.fieldOfView;
 		}
-		if ((bool)base.rigidbody)
+		if ((bool)base.GetComponent<Rigidbody>())
 		{
-			base.rigidbody.freezeRotation = true;
+			base.GetComponent<Rigidbody>().freezeRotation = true;
 		}
 	}
 

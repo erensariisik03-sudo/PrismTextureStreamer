@@ -11,11 +11,11 @@ public class SALevelLoader : Singleton<SALevelLoader>
 
 	public void LoadLevel(string name)
 	{
-		Application.LoadLevel(name);
+		UnityEngine.SceneManagement.SceneManager.LoadScene(name);
 	}
 
 	public void Restart()
 	{
-		Application.LoadLevel(Application.loadedLevelName);
+		UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 	}
 }

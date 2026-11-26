@@ -66,15 +66,15 @@ public class TestReporter : MonoBehaviour
 			GUI.Label(rect2, "To use Reporter just drag drop reporter prefab in first scene your game start at ", style);
 			if (GUI.Button(rect3, "Load ReporterScene"))
 			{
-				Application.LoadLevel("ReporterScene");
+				UnityEngine.SceneManagement.SceneManager.LoadScene("ReporterScene");
 			}
 			if (GUI.Button(rect4, "Load test1"))
 			{
-				Application.LoadLevel("test1");
+				UnityEngine.SceneManagement.SceneManager.LoadScene("test1");
 			}
 			if (GUI.Button(rect5, "Load test2"))
 			{
-				Application.LoadLevel("test2");
+				UnityEngine.SceneManagement.SceneManager.LoadScene("test2");
 			}
 			GUI.Label(rect6, "fps : " + reporter.fps.ToString("0.0"), style);
 		}

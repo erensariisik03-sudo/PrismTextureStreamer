@@ -53,7 +53,7 @@ public class CarExternalInputRandom : CarExternalInput
 		if (Time.time > m_nextThrottleTime)
 		{
 			float num = throttleForwardRandom;
-			float magnitude = base.rigidbody.velocity.magnitude;
+			float magnitude = base.GetComponent<Rigidbody>().velocity.magnitude;
 			if (magnitude < 0.1f && m_targetBrake < 0.001f && m_targetGear != -1)
 			{
 				num *= 0.4f;

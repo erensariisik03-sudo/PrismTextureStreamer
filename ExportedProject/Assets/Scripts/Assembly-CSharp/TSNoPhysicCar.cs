@@ -113,9 +113,9 @@ public class TSNoPhysicCar : MonoBehaviour
 		{
 			engineAudioEnabled = false;
 		}
-		if ((bool)base.rigidbody && base.enabled)
+		if ((bool)base.GetComponent<Rigidbody>() && base.enabled)
 		{
-			UnityEngine.Object.DestroyImmediate(base.rigidbody);
+			UnityEngine.Object.DestroyImmediate(base.GetComponent<Rigidbody>());
 		}
 	}
 

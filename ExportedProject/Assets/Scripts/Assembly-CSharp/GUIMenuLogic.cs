@@ -539,7 +539,7 @@ public class GUIMenuLogic : GUILogic
 		ManagerAnalytics.instance.FireStartGame(currentCar.GetComponent<InfoCar>().idName, MySingleton<Manager>.Instance.gameMode.ToString());
 		ShowLoading();
 		MySingleton<Manager>.Instance.ads.CheckForTimeInterstitial();
-		Application.LoadLevel(2);
+		UnityEngine.SceneManagement.SceneManager.LoadScene(2);
 	}
 
 	public void ShowGameMode()

@@ -463,7 +463,7 @@ public class GameLogic : MonoBehaviour
 		{
 			MySingleton<Manager>.Instance.currentLevelZoneName = MySingleton<Manager>.Instance.levelZone.nameSceneZone;
 		}
-		Application.LoadLevel(3);
+		UnityEngine.SceneManagement.SceneManager.LoadScene(3);
 	}
 
 	public void InstantiateCar()

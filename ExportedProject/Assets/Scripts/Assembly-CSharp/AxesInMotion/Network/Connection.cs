@@ -94,7 +94,7 @@ namespace AxesInMotion.Network
 			connectionLost = true;
 			lostInGame = MySingleton<Manager>.Instance.gameMode == Manager.GameMode.Multiplayer;
 			connectionLostCause = cause;
-			Application.LoadLevel(1);
+			UnityEngine.SceneManagement.SceneManager.LoadScene(1);
 		}
 
 		private void OnConnectCallback()
@@ -107,7 +107,7 @@ namespace AxesInMotion.Network
 		{
 			if (MySingleton<Manager>.Instance.gameMode == Manager.GameMode.Multiplayer)
 			{
-				Application.LoadLevel(1);
+				UnityEngine.SceneManagement.SceneManager.LoadScene(1);
 			}
 			MySingleton<Manager>.Instance.networkManager.offline = true;
 		}

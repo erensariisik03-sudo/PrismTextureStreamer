@@ -220,10 +220,10 @@ public class CameraMotionBlur : PostEffectsBase
 		motionBlurMaterial.SetTexture("_TileTexDebug", temporary2);
 		if (preview)
 		{
-			Matrix4x4 worldToCameraMatrix = this.camera.worldToCameraMatrix;
+			Matrix4x4 worldToCameraMatrix = this.GetComponent<Camera>().worldToCameraMatrix;
 			Matrix4x4 identity = Matrix4x4.identity;
 			identity.SetTRS(previewScale * 0.3333f, Quaternion.identity, Vector3.one);
-			Matrix4x4 gPUProjectionMatrix = GL.GetGPUProjectionMatrix(this.camera.projectionMatrix, true);
+			Matrix4x4 gPUProjectionMatrix = GL.GetGPUProjectionMatrix(this.GetComponent<Camera>().projectionMatrix, true);
 			prevViewProjMat = gPUProjectionMatrix * identity * worldToCameraMatrix;
 			motionBlurMaterial.SetMatrix("_PrevViewProj", prevViewProjMat);
 			motionBlurMaterial.SetMatrix("_ToPrevViewProjCombined", prevViewProjMat * matrix4x);
@@ -235,11 +235,11 @@ public class CameraMotionBlur : PostEffectsBase
 			Vector3 rhs = prevFramePos - transform.position;
 			float magnitude = rhs.magnitude;
 			float num5 = 1f;
-			num5 = Vector3.Angle(transform.up, prevFrameUp) / this.camera.fieldOfView * ((float)source.width * 0.75f);
+			num5 = Vector3.Angle(transform.up, prevFrameUp) / this.GetComponent<Camera>().fieldOfView * ((float)source.width * 0.75f);
 			zero.x = rotationScale * num5;
-			num5 = Vector3.Angle(transform.forward, prevFrameForward) / this.camera.fieldOfView * ((float)source.width * 0.75f);
+			num5 = Vector3.Angle(transform.forward, prevFrameForward) / this.GetComponent<Camera>().fieldOfView * ((float)source.width * 0.75f);
 			zero.y = rotationScale * num4 * num5;
-			num5 = Vector3.Angle(transform.forward, prevFrameForward) / this.camera.fieldOfView * ((float)source.width * 0.75f);
+			num5 = Vector3.Angle(transform.forward, prevFrameForward) / this.GetComponent<Camera>().fieldOfView * ((float)source.width * 0.75f);
 			zero.z = rotationScale * (1f - num4) * num5;
 			if (!(magnitude <= float.Epsilon) && !(movementScale <= float.Epsilon))
 			{
@@ -249,7 +249,7 @@ public class CameraMotionBlur : PostEffectsBase
 			}
 			if (preview)
 			{
-				motionBlurMaterial.SetVector("_BlurDirectionPacked", new Vector4(previewScale.y, previewScale.x, 0f, previewScale.z) * 0.5f * this.camera.fieldOfView);
+				motionBlurMaterial.SetVector("_BlurDirectionPacked", new Vector4(previewScale.y, previewScale.x, 0f, previewScale.z) * 0.5f * this.GetComponent<Camera>().fieldOfView);
 			}
 			else
 			{

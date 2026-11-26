@@ -102,7 +102,7 @@ public class FriendEntry : MonoBehaviour
 	private void RemoveFriend()
 	{
 		MySingleton<Manager>.Instance.networkFriends.RemoveFriend(friend.upid);
-		if (Application.loadedLevel == 1)
+		if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 1)
 		{
 			((GUIMenuLogic)MySingleton<Manager>.Instance.guiCurrentLogic).RefreshFriendList();
 		}

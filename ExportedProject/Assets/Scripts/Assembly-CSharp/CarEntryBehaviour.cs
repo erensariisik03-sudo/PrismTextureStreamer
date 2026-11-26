@@ -275,7 +275,7 @@ public class CarEntryBehaviour : MonoBehaviour
 	public void OnButtonBuyCreditsClicked()
 	{
 		MySingleton<Manager>.Instance.carUnlockedId = CarId;
-		if (Application.loadedLevelName != "1Menu")
+		if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "1Menu")
 		{
 			MySingleton<Manager>.Instance.guiGameLogic.OpenCompleteTask();
 			MySingleton<Manager>.Instance.guiGameLogic.ActivePauseMenu(false);
@@ -296,7 +296,7 @@ public class CarEntryBehaviour : MonoBehaviour
 	{
 		MySingleton<Manager>.Instance.indexLastCarInstantiate = CarId;
 		MySingleton<Manager>.Instance.carUnlockedId = CarId;
-		if (Application.loadedLevelName != "1Menu")
+		if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "1Menu")
 		{
 			MySingleton<Manager>.Instance.guiGameLogic.ActivePauseMenu(false);
 			patherPanel.GetComponent<PanelUnlockCars>().HidePanel();
@@ -317,7 +317,7 @@ public class CarEntryBehaviour : MonoBehaviour
 	public void ShowCarAtGarage()
 	{
 		MySingleton<Manager>.Instance.carUnlockedId = CarId;
-		if (Application.loadedLevelName != "1Menu")
+		if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "1Menu")
 		{
 			MySingleton<Manager>.Instance.guiGameLogic.BackToMenu();
 		}

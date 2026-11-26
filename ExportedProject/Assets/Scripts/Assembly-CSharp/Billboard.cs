@@ -64,7 +64,7 @@ public class Billboard : MonoBehaviour
 	private void Awake()
 	{
 		CreateParticle();
-		base.renderer.enabled = false;
+		base.GetComponent<Renderer>().enabled = false;
 	}
 
 	private void OnEnable()
@@ -96,7 +96,7 @@ public class Billboard : MonoBehaviour
 		}
 		if (playMode == PlayMode.NoAnimation)
 		{
-			base.renderer.enabled = true;
+			base.GetComponent<Renderer>().enabled = true;
 		}
 	}
 
@@ -152,9 +152,9 @@ public class Billboard : MonoBehaviour
 		float num = Mathf.Floor(index % columns);
 		float num2 = Mathf.Floor(index / columns);
 		Vector2 offset = new Vector2(num * scale.x, 1f - scale.y - num2 * scale.y);
-		base.renderer.material.SetTextureOffset("_MainTex", offset);
-		base.renderer.material.SetTextureScale("_MainTex", scale);
-		base.renderer.enabled = true;
+		base.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", offset);
+		base.GetComponent<Renderer>().material.SetTextureScale("_MainTex", scale);
+		base.GetComponent<Renderer>().enabled = true;
 	}
 
 	public void UpdateSize()
@@ -182,10 +182,10 @@ public class Billboard : MonoBehaviour
 			new Vector2(1f, 1f),
 			new Vector2(1f, 0f)
 		};
-		meshRender.castShadows = false;
+		meshRender.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 		meshRender.receiveShadows = false;
 		mesh.RecalculateNormals();
-		base.renderer.material = material;
+		base.GetComponent<Renderer>().material = material;
 	}
 
 	private void Camera_BillboardingMode()

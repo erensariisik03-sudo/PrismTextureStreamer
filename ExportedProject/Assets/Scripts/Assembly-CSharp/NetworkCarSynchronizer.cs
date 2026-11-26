@@ -98,7 +98,7 @@ public class NetworkCarSynchronizer : NetworkBehaviour
 		}
 		if (sharedRigidbody == null)
 		{
-			sharedRigidbody = base.rigidbody;
+			sharedRigidbody = base.GetComponent<Rigidbody>();
 		}
 		if (sharedTransform == null)
 		{

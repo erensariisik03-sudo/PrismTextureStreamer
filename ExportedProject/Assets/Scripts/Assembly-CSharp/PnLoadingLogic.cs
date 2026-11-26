@@ -11,7 +11,7 @@ public class PnLoadingLogic : MonoBehaviour
 	private void OnEnable()
 	{
 		currentUIRootDisabled = GameObject.Find("UI Root");
-		if (!currentUIRootDisabled && Application.loadedLevel != 0)
+		if (!currentUIRootDisabled && UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != 0)
 		{
 			Debug.LogError("Revisar que el UI Root de la escena se llama como indica la constante UI_ROOT_NAME_GAME_OBJECT");
 		}

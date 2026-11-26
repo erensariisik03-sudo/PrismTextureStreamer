@@ -58,7 +58,7 @@ public class NetworkCarRadarMarker : NetworkBehaviour
 	public GameObject Initialize(Color color)
 	{
 		GameObject pnNetworkRadar = MySingleton<Manager>.Instance.guiGameLogic.pnNetworkRadar;
-		destiny = pnNetworkRadar.transform.parent.gameObject.camera;
+		destiny = pnNetworkRadar.transform.parent.gameObject.GetComponent<Camera>();
 		marker = NGUITools.AddChild(pnNetworkRadar, (GameObject)Resources.Load("Marker", typeof(GameObject)));
 		markerTransform = marker.transform;
 		targetTransform = base.transform;

@@ -27,15 +27,15 @@ public class TSCarLocomotionSwitcher : MonoBehaviour
 		noPhysicsLocomotion.speed = simpleLocomotion.speed;
 		noPhysicsLocomotion.navigation.physicalLocomotion = false;
 		simpleLocomotion.throttle = 0f;
-		if ((bool)base.rigidbody)
+		if ((bool)base.GetComponent<Rigidbody>())
 		{
 			if (Application.isPlaying)
 			{
-				Object.Destroy(base.rigidbody);
+				Object.Destroy(base.GetComponent<Rigidbody>());
 			}
 			else
 			{
-				Object.DestroyImmediate(base.rigidbody);
+				Object.DestroyImmediate(base.GetComponent<Rigidbody>());
 			}
 			simpleLocomotion.body = null;
 			simpleLocomotion.bodies = new Rigidbody[0];
@@ -61,7 +61,7 @@ public class TSCarLocomotionSwitcher : MonoBehaviour
 			noPhysicsLocomotion.navigation.physicalLocomotion = true;
 			noPhysicsLocomotion.enabled = false;
 			noPhysicsLocomotion.throttle = 0f;
-			if (!base.rigidbody)
+			if (!base.GetComponent<Rigidbody>())
 			{
 				simpleLocomotion.body = base.gameObject.AddComponent<Rigidbody>();
 				simpleLocomotion.bodies = new Rigidbody[1] { simpleLocomotion.body };

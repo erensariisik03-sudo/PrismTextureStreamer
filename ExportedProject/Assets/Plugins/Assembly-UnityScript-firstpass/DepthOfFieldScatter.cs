@@ -1,5 +1,4 @@
 using System;
-using Boo.Lang.Runtime;
 using UnityEngine;
 
 [Serializable]
@@ -140,13 +139,13 @@ public class DepthOfFieldScatter : PostEffectsBase
 
 	public virtual void CreateComputeResources()
 	{
-		if (RuntimeServices.EqualityOperator(cbDrawArgs, null))
+		if ((cbDrawArgs == null))
 		{
 			cbDrawArgs = new ComputeBuffer(1, 16, ComputeBufferType.DrawIndirect);
 			int[] data = new int[4] { 0, 1, 0, 0 };
 			cbDrawArgs.SetData(data);
 		}
-		if (RuntimeServices.EqualityOperator(cbPoints, null))
+		if ((cbPoints == null))
 		{
 			cbPoints = new ComputeBuffer(90000, 28, ComputeBufferType.Append);
 		}

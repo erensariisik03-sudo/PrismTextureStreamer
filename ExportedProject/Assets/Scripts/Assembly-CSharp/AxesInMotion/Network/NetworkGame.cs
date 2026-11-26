@@ -176,7 +176,7 @@ namespace AxesInMotion.Network
 			MiniGameLogic.MiniGameType miniGameType = miniGameSelected;
 			if (miniGameType == MiniGameLogic.MiniGameType.Racing)
 			{
-				Application.LoadLevelAdditive("RacingMiniGame");
+				UnityEngine.SceneManagement.SceneManager.LoadScene("RacingMiniGame", UnityEngine.SceneManagement.LoadSceneMode.Additive);
 			}
 		}
 

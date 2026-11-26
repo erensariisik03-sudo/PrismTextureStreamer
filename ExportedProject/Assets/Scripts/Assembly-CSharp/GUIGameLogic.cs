@@ -759,7 +759,7 @@ public class GUIGameLogic : GUILogic, GUIFacebookScreenshotModeExtension
 	{
 		ShowLoading();
 		Time.timeScale = 1f;
-		Application.LoadLevel(2);
+		UnityEngine.SceneManagement.SceneManager.LoadScene(2);
 	}
 
 	public void ShowHUD()
@@ -801,7 +801,7 @@ public class GUIGameLogic : GUILogic, GUIFacebookScreenshotModeExtension
 		MySingleton<Manager>.Instance.paused = false;
 		ShowLoading();
 		MySingleton<Manager>.Instance.starterPopUpAlreadySeen = false;
-		Application.LoadLevel(1);
+		UnityEngine.SceneManagement.SceneManager.LoadScene(1);
 	}
 
 	public void BackToMenuWithAd()

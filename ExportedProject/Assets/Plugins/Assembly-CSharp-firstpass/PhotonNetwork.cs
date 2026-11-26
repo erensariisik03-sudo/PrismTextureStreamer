@@ -1498,7 +1498,7 @@ public static class PhotonNetwork
 		networkingPeer.SetLevelInPropsIfSynced(levelNumber);
 		isMessageQueueRunning = false;
 		networkingPeer.loadingLevelAndPausedNetwork = true;
-		Application.LoadLevel(levelNumber);
+		UnityEngine.SceneManagement.SceneManager.LoadScene(levelNumber);
 	}
 
 	public static void LoadLevel(string levelName)
@@ -1506,7 +1506,7 @@ public static class PhotonNetwork
 		networkingPeer.SetLevelInPropsIfSynced(levelName);
 		isMessageQueueRunning = false;
 		networkingPeer.loadingLevelAndPausedNetwork = true;
-		Application.LoadLevel(levelName);
+		UnityEngine.SceneManagement.SceneManager.LoadScene(levelName);
 	}
 
 	public static bool WebRpc(string name, object parameters)

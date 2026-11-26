@@ -14,21 +14,21 @@ public class SA_BackButton : DefaultPreviewButton
 		Object.DontDestroyOnLoad(base.gameObject);
 		if (firstLevel == string.Empty)
 		{
-			firstLevel = Application.loadedLevelName;
+			firstLevel = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 		}
 	}
 
 	private void FixedUpdate()
 	{
-		if (Application.loadedLevelName.Equals(firstLevel))
+		if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Equals(firstLevel))
 		{
-			base.renderer.enabled = false;
-			base.collider.enabled = false;
+			base.GetComponent<Renderer>().enabled = false;
+			base.GetComponent<Collider>().enabled = false;
 		}
 		else
 		{
-			base.renderer.enabled = true;
-			base.collider.enabled = true;
+			base.GetComponent<Renderer>().enabled = true;
+			base.GetComponent<Collider>().enabled = true;
 		}
 	}
 

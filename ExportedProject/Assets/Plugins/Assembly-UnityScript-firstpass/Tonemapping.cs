@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityScript.Lang;
 
 [Serializable]
 [RequireComponent(typeof(Camera))]
@@ -91,7 +90,7 @@ public class Tonemapping : PostEffectsBase
 	public virtual float UpdateCurve()
 	{
 		float num = 1f;
-		if (Extensions.get_length((System.Array)remapCurve.keys) < 1)
+		if (remapCurve.keys.Length < 1)
 		{
 			remapCurve = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(2f, 1f));
 		}

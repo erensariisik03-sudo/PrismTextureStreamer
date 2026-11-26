@@ -2794,12 +2794,12 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
 		object obj = PhotonNetwork.room.customProperties["curScn"];
 		if (obj is int)
 		{
-			if (Application.loadedLevel != (int)obj)
+			if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != (int)obj)
 			{
 				PhotonNetwork.LoadLevel((int)obj);
 			}
 		}
-		else if (obj is string && Application.loadedLevelName != (string)obj)
+		else if (obj is string && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != (string)obj)
 		{
 			PhotonNetwork.LoadLevel((string)obj);
 		}
@@ -2819,7 +2819,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
 		if (PhotonNetwork.room.customProperties.ContainsKey("curScn"))
 		{
 			object obj = PhotonNetwork.room.customProperties["curScn"];
-			if ((obj is int && Application.loadedLevel == (int)obj) || (obj is string && Application.loadedLevelName.Equals((string)obj)))
+			if ((obj is int && UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)obj) || (obj is string && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Equals((string)obj)))
 			{
 				return;
 			}

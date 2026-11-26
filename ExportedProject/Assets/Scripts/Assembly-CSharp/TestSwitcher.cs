@@ -8,8 +8,8 @@ public class TestSwitcher : MonoBehaviour
 	private void Awake()
 	{
 		base.gameObject.layer = LayerMask.NameToLayer("TrafficAI");
-		((SphereCollider)base.gameObject.collider).radius = radiusDetection;
-		base.collider.isTrigger = true;
+		((SphereCollider)base.gameObject.GetComponent<Collider>()).radius = radiusDetection;
+		base.GetComponent<Collider>().isTrigger = true;
 	}
 
 	private void OnTriggerEnter(Collider c)

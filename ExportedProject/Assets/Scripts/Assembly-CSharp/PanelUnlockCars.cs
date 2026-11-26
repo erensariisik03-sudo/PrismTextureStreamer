@@ -74,7 +74,7 @@ public class PanelUnlockCars : MonoBehaviour
 	public void GoToGarage()
 	{
 		MySingleton<Manager>.Instance.carUnlockedId = MySingleton<Manager>.Instance.indexCurrentCar;
-		if (Application.loadedLevelName != "1Menu")
+		if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "1Menu")
 		{
 			MySingleton<Manager>.Instance.guiGameLogic.BackToMenu();
 			return;

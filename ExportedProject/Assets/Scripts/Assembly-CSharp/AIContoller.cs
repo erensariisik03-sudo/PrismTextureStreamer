@@ -68,8 +68,8 @@ public class AIContoller : MonoBehaviour
 		}
 		if ((bool)gameObject)
 		{
-			gameObject.rigidbody.velocity = Vector3.zero;
-			gameObject.rigidbody.angularVelocity = Vector3.zero;
+			gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+			gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 		}
 		return gameObject;
 	}

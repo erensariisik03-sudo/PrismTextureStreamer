@@ -334,7 +334,7 @@ public class CarController : MonoBehaviour
 
 	private void Update()
 	{
-		speed = base.rigidbody.velocity.magnitude * 3.6f;
+		speed = base.GetComponent<Rigidbody>().velocity.magnitude * 3.6f;
 		if ((bool)player && Vector3.Distance(base.transform.position, player.transform.position) > clearDistance)
 		{
 			ACScript.GetCarForInactiveTraffic(base.gameObject);
@@ -631,7 +631,7 @@ public class CarController : MonoBehaviour
 	private void FixedUpdate()
 	{
 		float fixedDeltaTime = Time.fixedDeltaTime;
-		base.rigidbody.centerOfMass = shiftCentre;
+		base.GetComponent<Rigidbody>().centerOfMass = shiftCentre;
 		if (base.gameObject.activeSelf && (checkForActive == null || checkForActive.activeSelf))
 		{
 			if (carMode == CarMode.Player)

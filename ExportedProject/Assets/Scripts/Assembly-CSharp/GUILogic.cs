@@ -80,8 +80,8 @@ public abstract class GUILogic : MonoBehaviour
 				decimal creditsAmount = MySingleton<Manager>.Instance.billingManager.GetCreditsAmount(purchase.PurchasedItem.LocalId);
 				MySingleton<Manager>.Instance.SetStoreReward((int)creditsAmount);
 			}
-			MySingleton<Manager>.Instance.storeInitData.lastSceneLoaded = Application.loadedLevel;
-			Application.LoadLevelAdditiveAsync(4);
+			MySingleton<Manager>.Instance.storeInitData.lastSceneLoaded = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+			UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(4, UnityEngine.SceneManagement.LoadSceneMode.Additive);
 		}
 	}
 

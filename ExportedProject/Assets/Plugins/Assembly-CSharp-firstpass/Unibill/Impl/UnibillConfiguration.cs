@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Uniject;
+using ILogger = Uniject.ILogger;
 using UnityEngine;
 
 namespace Unibill.Impl

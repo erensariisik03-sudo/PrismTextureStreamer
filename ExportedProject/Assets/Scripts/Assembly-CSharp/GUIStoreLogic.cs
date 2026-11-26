@@ -419,7 +419,7 @@ public class GUIStoreLogic : GUILogic
 		}
 		else
 		{
-			Application.LoadLevel(1);
+			UnityEngine.SceneManagement.SceneManager.LoadScene(1);
 		}
 	}
 

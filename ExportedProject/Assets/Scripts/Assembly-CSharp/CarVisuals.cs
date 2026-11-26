@@ -316,11 +316,11 @@ public class CarVisuals : MonoBehaviour
 	{
 		WheelHit hit = default(WheelHit);
 		WheelCollider wheelCollider = Wheel.getWheelCollider();
-		if (Application.loadedLevelName != "1Menu" && !disableWheelVisuals && wheelCollider != null && wheelCollider.GetGroundHit(out hit))
+		if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "1Menu" && !disableWheelVisuals && wheelCollider != null && wheelCollider.GetGroundHit(out hit))
 		{
 			wheelData.suspensionStress = hit.force - wheelData.lastSuspensionForce;
 			wheelData.lastSuspensionForce = hit.force;
-			wheelData.wheelVelocity = base.rigidbody.GetPointVelocity(hit.point);
+			wheelData.wheelVelocity = base.GetComponent<Rigidbody>().GetPointVelocity(hit.point);
 			if ((bool)hit.collider.attachedRigidbody)
 			{
 				wheelData.wheelVelocity -= hit.collider.attachedRigidbody.GetPointVelocity(hit.point);
@@ -599,7 +599,7 @@ public class CarVisuals : MonoBehaviour
 			ContactPoint contactPoint = contacts[i];
 			Collider collider = contactPoint.thisCollider;
 			Collider collider2 = contactPoint.otherCollider;
-			if (collider == null || collider.attachedRigidbody != base.rigidbody)
+			if (collider == null || collider.attachedRigidbody != base.GetComponent<Rigidbody>())
 			{
 				collider = contactPoint.otherCollider;
 				collider2 = contactPoint.thisCollider;
@@ -608,7 +608,7 @@ public class CarVisuals : MonoBehaviour
 			{
 				continue;
 			}
-			Vector3 pointVelocity = base.rigidbody.GetPointVelocity(contactPoint.point);
+			Vector3 pointVelocity = base.GetComponent<Rigidbody>().GetPointVelocity(contactPoint.point);
 			if ((bool)collider2 && (bool)collider2.attachedRigidbody)
 			{
 				pointVelocity -= collider2.attachedRigidbody.GetPointVelocity(contactPoint.point);

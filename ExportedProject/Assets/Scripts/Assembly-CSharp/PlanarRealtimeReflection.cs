@@ -32,7 +32,7 @@ public class PlanarRealtimeReflection : MonoBehaviour
 
 	public void OnWillRenderObject()
 	{
-		if (!base.enabled || !base.renderer || !base.renderer.sharedMaterial || !base.renderer.enabled)
+		if (!base.enabled || !base.GetComponent<Renderer>() || !base.GetComponent<Renderer>().sharedMaterial || !base.GetComponent<Renderer>().enabled)
 		{
 			return;
 		}
@@ -92,7 +92,7 @@ public class PlanarRealtimeReflection : MonoBehaviour
 		reflectionCamera.Render();
 		reflectionCamera.transform.position = position2;
 		GL.SetRevertBackfacing(false);
-		Material[] sharedMaterials = base.renderer.sharedMaterials;
+		Material[] sharedMaterials = base.GetComponent<Renderer>().sharedMaterials;
 		Material[] array = sharedMaterials;
 		foreach (Material material in array)
 		{
@@ -180,7 +180,7 @@ public class PlanarRealtimeReflection : MonoBehaviour
 		if (!reflectionCamera)
 		{
 			GameObject gameObject = new GameObject("Surface Refl Camera id" + GetInstanceID() + " for " + currentCamera.GetInstanceID(), typeof(Camera), typeof(Skybox));
-			reflectionCamera = gameObject.camera;
+			reflectionCamera = gameObject.GetComponent<Camera>();
 			reflectionCamera.enabled = false;
 			reflectionCamera.transform.position = base.transform.position;
 			reflectionCamera.transform.rotation = base.transform.rotation;

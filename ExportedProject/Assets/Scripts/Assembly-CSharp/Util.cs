@@ -294,8 +294,8 @@ public class Util
 		TextMesh textMesh = gameObject.AddComponent(typeof(TextMesh)) as TextMesh;
 		gameObject.AddComponent(typeof(MeshRenderer));
 		textMesh.font = font;
-		gameObject.renderer.material = font.material;
-		gameObject.renderer.material.color = color;
+		gameObject.GetComponent<Renderer>().material = font.material;
+		gameObject.GetComponent<Renderer>().material.color = color;
 		textMesh.text = text;
 		gameObject.transform.localScale = Vector3.one * size;
 		gameObject.transform.Translate(position);

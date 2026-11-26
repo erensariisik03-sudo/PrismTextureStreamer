@@ -36,9 +36,9 @@ public class CamMouseOrbit : MonoBehaviour
 		Vector3 eulerAngles = base.transform.eulerAngles;
 		x = eulerAngles.y;
 		y = eulerAngles.x;
-		if ((bool)base.rigidbody)
+		if ((bool)base.GetComponent<Rigidbody>())
 		{
-			base.rigidbody.freezeRotation = true;
+			base.GetComponent<Rigidbody>().freezeRotation = true;
 		}
 	}
 

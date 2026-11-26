@@ -44,7 +44,7 @@ namespace GameAnalyticsSDK
 				}
 				_instance = this;
 				UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
-				Application.RegisterLogCallback(GA_Debug.HandleLog);
+				Application.logMessageReceived += GA_Debug.HandleLog;
 				Initialize();
 			}
 		}

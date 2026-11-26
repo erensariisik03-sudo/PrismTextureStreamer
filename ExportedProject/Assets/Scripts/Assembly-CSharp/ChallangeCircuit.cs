@@ -94,7 +94,7 @@ public class ChallangeCircuit : MonoBehaviour
 		{
 			OnEnteringEvent(this);
 		}
-		_asyncOperation = Application.LoadLevelAdditiveAsync(_sceneName);
+		_asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(_sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
 	}
 
 	public void UnloadCircuit()

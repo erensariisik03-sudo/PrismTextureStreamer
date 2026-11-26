@@ -123,7 +123,7 @@ public class UnibillUnityUtil : MonoBehaviour, IUtil
 
 	public string loadedLevelName()
 	{
-		return Application.loadedLevelName;
+		return UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 	}
 
 	public static T findInstanceOfType<T>() where T : MonoBehaviour

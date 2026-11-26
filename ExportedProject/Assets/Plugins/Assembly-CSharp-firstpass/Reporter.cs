@@ -385,7 +385,7 @@ public class Reporter : MonoBehaviour
 		Sample sample = new Sample();
 		sample.fps = fps;
 		sample.fpsText = fpsText;
-		sample.loadedScene = (byte)Application.loadedLevel;
+		sample.loadedScene = (byte)UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
 		sample.time = Time.realtimeSinceStartup;
 		sample.memory = gcTotalMemory;
 		samples.Add(sample);
@@ -405,9 +405,9 @@ public class Reporter : MonoBehaviour
 				Debug.LogException(exception);
 			}
 			scenes = new string[Application.levelCount];
-			currentScene = Application.loadedLevelName;
+			currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 			UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
-			Application.RegisterLogCallback(CaptureLog);
+			Application.logMessageReceived += CaptureLog;
 			created = true;
 			int num = (int)(size.x * 0.2f);
 			int num2 = (int)(size.y * 0.2f);
@@ -556,7 +556,7 @@ public class Reporter : MonoBehaviour
 
 	public void CatureLog()
 	{
-		Application.RegisterLogCallback(CaptureLog);
+		Application.logMessageReceived += CaptureLog;
 	}
 
 	private void Start()
@@ -1501,9 +1501,9 @@ public class Reporter : MonoBehaviour
 	{
 		fpsText = fps.ToString("0.000");
 		gcTotalMemory = (float)GC.GetTotalMemory(false) / 1024f / 1024f;
-		if (string.IsNullOrEmpty(scenes[Application.loadedLevel]))
+		if (string.IsNullOrEmpty(scenes[UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex]))
 		{
-			scenes[Application.loadedLevel] = Application.loadedLevelName;
+			scenes[UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex] = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 		}
 		float num = Time.realtimeSinceStartup - lastUpdate;
 		fps = 1f / num;
@@ -1517,7 +1517,7 @@ public class Reporter : MonoBehaviour
 		if (num2 > 1f)
 		{
 			lastUpdate2 = Time.realtimeSinceStartup;
-			Application.RegisterLogCallback(CaptureLog);
+			Application.logMessageReceived += CaptureLog;
 		}
 	}
 
@@ -1656,10 +1656,10 @@ public class Reporter : MonoBehaviour
 		{
 			clear();
 		}
-		currentScene = Application.loadedLevelName;
+		currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 		if (Debug.isDebugBuild)
 		{
-			Debug.Log("Scene " + Application.loadedLevelName + " is loaded");
+			Debug.Log("Scene " + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name + " is loaded");
 		}
 	}
 

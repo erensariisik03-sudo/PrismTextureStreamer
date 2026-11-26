@@ -76,7 +76,7 @@ namespace Unibill.Impl
 			Dictionary<string, object> baseRequest = getBaseRequest(EventType.level_change);
 			baseRequest.Add("levelChange", encodeLevelChange());
 			levelLoadTime = DateTime.UtcNow;
-			levelName = Application.loadedLevelName;
+			levelName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 			onEvent(baseRequest);
 		}
 

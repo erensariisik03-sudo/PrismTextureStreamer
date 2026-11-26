@@ -17,7 +17,7 @@ public class OnClickLoadSomething : MonoBehaviour
 		switch (ResourceTypeToLoad)
 		{
 		case ResourceTypeOption.Scene:
-			Application.LoadLevel(ResourceToLoad);
+			UnityEngine.SceneManagement.SceneManager.LoadScene(ResourceToLoad);
 			break;
 		case ResourceTypeOption.Web:
 			Application.OpenURL(ResourceToLoad);

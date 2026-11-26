@@ -42,7 +42,7 @@ public class VehicleParticlesController : MonoBehaviour
 				continue;
 			}
 			rubbishParticleSystem.GetComponent<RubbishParticles>().ChangeColor();
-			impactVelocityVector = base.rigidbody.velocity;
+			impactVelocityVector = base.GetComponent<Rigidbody>().velocity;
 			impactVelocity = Mathf.Abs(gameLogic.GetSpeedMS(collisionInfo.relativeVelocity));
 			if (impactVelocity > thresholdParticlesCarVelocity)
 			{
@@ -82,7 +82,7 @@ public class VehicleParticlesController : MonoBehaviour
 				{
 					sparksParticleSystem.Play();
 					sparksParticleSystem.GetComponent<SparksParticlesFlare>().ActiveFlare();
-					impactVelocity = Mathf.Abs(gameLogic.GetSpeedMS(base.rigidbody.velocity));
+					impactVelocity = Mathf.Abs(gameLogic.GetSpeedMS(base.GetComponent<Rigidbody>().velocity));
 					sparksParticleSystem.transform.parent = base.transform;
 				}
 			}

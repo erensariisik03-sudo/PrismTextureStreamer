@@ -50,7 +50,7 @@ public class RealtimeReflections : MonoBehaviour
 			gameObject.hideFlags = HideFlags.HideAndDontSave;
 			gameObject.transform.position = base.transform.position;
 			gameObject.transform.rotation = Quaternion.identity;
-			cam = gameObject.camera;
+			cam = gameObject.GetComponent<Camera>();
 			cam.cullingMask = layerMask;
 			cam.nearClipPlane = nearClip;
 			cam.farClipPlane = farClip;

@@ -61,7 +61,7 @@ public class NormalCharacterMotor : CharacterMotor
 		UpdateFacingDirection();
 		UpdateVelocity();
 		step_speed = Mathf.Clamp(Mathf.Abs(movement.z) + Mathf.Abs(movement.x), 0f, 4f);
-		base.audio.volume = Mathf.Clamp01(step_speed / 2f);
+		base.GetComponent<AudioSource>().volume = Mathf.Clamp01(step_speed / 2f);
 	}
 
 	private void Health()
@@ -81,19 +81,19 @@ public class NormalCharacterMotor : CharacterMotor
 
 	private void OnFootLift()
 	{
-		if (!base.audio.isPlaying)
+		if (!base.GetComponent<AudioSource>().isPlaying)
 		{
 			step++;
 			step = Mathf.Repeat(step, 2f);
 			if (step == 0f)
 			{
-				base.audio.clip = step1c;
-				base.audio.Play();
+				base.GetComponent<AudioSource>().clip = step1c;
+				base.GetComponent<AudioSource>().Play();
 			}
 			if (step == 1f)
 			{
-				base.audio.clip = step2c;
-				base.audio.Play();
+				base.GetComponent<AudioSource>().clip = step2c;
+				base.GetComponent<AudioSource>().Play();
 			}
 		}
 	}

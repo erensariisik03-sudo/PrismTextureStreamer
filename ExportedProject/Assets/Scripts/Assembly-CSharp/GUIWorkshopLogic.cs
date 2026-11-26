@@ -145,7 +145,7 @@ public class GUIWorkshopLogic : GUILogic, GUIFacebookScreenshotModeExtension
 
 	private void BackToSceneGame()
 	{
-		Application.LoadLevel(2);
+		UnityEngine.SceneManagement.SceneManager.LoadScene(2);
 	}
 
 	private void ShowLoading()

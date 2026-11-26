@@ -31,8 +31,8 @@ public class WorkshopDoorAudio : MonoBehaviour
 		if (!inited)
 		{
 			base.gameObject.AddComponent<AudioSource>();
-			base.audio.playOnAwake = false;
-			base.audio.clip = audioClip;
+			base.GetComponent<AudioSource>().playOnAwake = false;
+			base.GetComponent<AudioSource>().clip = audioClip;
 			if (!workshopLogic)
 			{
 				workshopLogic = base.transform.parent.GetComponent<WorkshopDoorLogic>();
@@ -43,6 +43,6 @@ public class WorkshopDoorAudio : MonoBehaviour
 
 	private void PlayAudio()
 	{
-		base.audio.Play();
+		base.GetComponent<AudioSource>().Play();
 	}
 }

@@ -76,16 +76,16 @@ public class MainCamera : MonoBehaviour
 	{
 		if (visibleMouseCursor)
 		{
-			Screen.showCursor = true;
+			Cursor.visible = true;
 		}
 		else
 		{
-			Screen.showCursor = false;
+			Cursor.visible = false;
 		}
 		Vector3 eulerAngles = base.transform.eulerAngles;
 		x = eulerAngles.y;
 		y = eulerAngles.x;
-		curFOV = base.camera.fieldOfView;
+		curFOV = base.GetComponent<Camera>().fieldOfView;
 		shiftFOV = curFOV + FOV;
 	}
 
@@ -95,12 +95,12 @@ public class MainCamera : MonoBehaviour
 		if (Mathf.Abs(component.velocity.magnitude) > 3f)
 		{
 			z = Mathf.PingPong(Time.time * runSpeed, runClamp) - runClamp / 2f;
-			base.camera.fieldOfView = Mathf.Lerp(base.camera.fieldOfView, shiftFOV, FOVSpeed * 0.05f);
+			base.GetComponent<Camera>().fieldOfView = Mathf.Lerp(base.GetComponent<Camera>().fieldOfView, shiftFOV, FOVSpeed * 0.05f);
 		}
 		else if (Mathf.Abs(component.velocity.magnitude) > 0.5f)
 		{
 			z = Mathf.SmoothStep(z, 0f, 0.2f);
-			base.camera.fieldOfView = Mathf.Lerp(base.camera.fieldOfView, shiftFOV / 1.1f, FOVSpeed * 0.05f);
+			base.GetComponent<Camera>().fieldOfView = Mathf.Lerp(base.GetComponent<Camera>().fieldOfView, shiftFOV / 1.1f, FOVSpeed * 0.05f);
 		}
 	}
 

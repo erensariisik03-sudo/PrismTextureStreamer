@@ -36,8 +36,8 @@ public class ScreenPlacement : MonoBehaviour
 	{
 		base.transform.ScreenPlacement(position, pixelOffset);
 		Transform transform = ((!(boundsTransform == null)) ? boundsTransform : base.transform);
-		Vector3 vector = Camera.main.WorldToScreenPoint(new Vector3(transform.renderer.bounds.min.x, transform.renderer.bounds.max.y, 0f));
-		Vector3 vector2 = Camera.main.WorldToScreenPoint(new Vector3(transform.renderer.bounds.max.x, transform.renderer.bounds.min.y, 0f));
+		Vector3 vector = Camera.main.WorldToScreenPoint(new Vector3(transform.GetComponent<Renderer>().bounds.min.x, transform.GetComponent<Renderer>().bounds.max.y, 0f));
+		Vector3 vector2 = Camera.main.WorldToScreenPoint(new Vector3(transform.GetComponent<Renderer>().bounds.max.x, transform.GetComponent<Renderer>().bounds.min.y, 0f));
 		Rect rect = new Rect(vector.x, (float)Screen.height - vector.y, vector2.x - vector.x, vector.y - vector2.y);
 		float num = 0f;
 		float num2 = 0f;

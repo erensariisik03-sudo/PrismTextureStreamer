@@ -168,15 +168,15 @@ public class CarControl : MonoBehaviour
 		sqrMaxSpeed = maxSpeed * maxSpeed;
 		if ((bool)CenterOfMass)
 		{
-			base.rigidbody.centerOfMass = new Vector3(CenterOfMass.localPosition.x * base.transform.localScale.x, CenterOfMass.localPosition.y * base.transform.localScale.y, CenterOfMass.localPosition.z * base.transform.localScale.z);
+			base.GetComponent<Rigidbody>().centerOfMass = new Vector3(CenterOfMass.localPosition.x * base.transform.localScale.x, CenterOfMass.localPosition.y * base.transform.localScale.y, CenterOfMass.localPosition.z * base.transform.localScale.z);
 		}
 		WheelCollider component = WheelFL.GetComponent<WheelCollider>();
-		Vector3 vector = base.rigidbody.centerOfMass - base.transform.InverseTransformPoint(component.transform.position);
+		Vector3 vector = base.GetComponent<Rigidbody>().centerOfMass - base.transform.InverseTransformPoint(component.transform.position);
 		float x = Mathf.Abs((vector.y + component.radius + component.suspensionDistance / 2f) * base.transform.localScale.y);
 		float y = Mathf.Abs(vector.x * base.transform.localScale.x);
 		m_maxRollAngle = Mathf.Atan2(y, x) * 57.29578f;
-		base.rigidbody.maxAngularVelocity = 10f;
-		base.rigidbody.useConeFriction = false;
+		base.GetComponent<Rigidbody>().maxAngularVelocity = 10f;
+		base.GetComponent<Rigidbody>().useConeFriction = false;
 		if (optimized)
 		{
 			ApplyCommonParameters(WheelFL);
@@ -252,7 +252,7 @@ public class CarControl : MonoBehaviour
 		if (autoSteerLevel > 0f)
 		{
 			float sidewaysPeakSlip = WheelFL.getSidewaysPeakSlip();
-			float num = Mathf.Abs(base.transform.InverseTransformDirection(base.rigidbody.velocity).z * autoSteerLevel);
+			float num = Mathf.Abs(base.transform.InverseTransformDirection(base.GetComponent<Rigidbody>().velocity).z * autoSteerLevel);
 			if (num > sidewaysPeakSlip)
 			{
 				m_steerAngleMax = 90f - Mathf.Acos(sidewaysPeakSlip / num) * 57.29578f;
@@ -272,9 +272,9 @@ public class CarControl : MonoBehaviour
 		{
 			float num2 = 0.5f * airDrag * 1.29f;
 			float num3 = frictionDrag * num2;
-			Vector3 vector = (0f - num2) * base.rigidbody.velocity * base.rigidbody.velocity.magnitude;
-			Vector3 vector2 = (0f - num3) * base.rigidbody.velocity;
-			base.rigidbody.AddForce(vector + vector2);
+			Vector3 vector = (0f - num2) * base.GetComponent<Rigidbody>().velocity * base.GetComponent<Rigidbody>().velocity.magnitude;
+			Vector3 vector2 = (0f - num3) * base.GetComponent<Rigidbody>().velocity;
+			base.GetComponent<Rigidbody>().AddForce(vector + vector2);
 		}
 		if ((bool)AntiRollFront)
 		{
@@ -351,7 +351,7 @@ public class CarControl : MonoBehaviour
 		{
 			Quaternion quaternion = Quaternion.AngleAxis(Wheel.getWheelCollider().steerAngle, Wheel.transform.up);
 			Vector3 rhs = quaternion * Wheel.transform.forward;
-			Vector3 pointVelocity = base.rigidbody.GetPointVelocity(hit.point);
+			Vector3 pointVelocity = base.GetComponent<Rigidbody>().GetPointVelocity(hit.point);
 			if ((bool)hit.collider.attachedRigidbody)
 			{
 				pointVelocity -= hit.collider.attachedRigidbody.GetPointVelocity(hit.point);
@@ -397,7 +397,7 @@ public class CarControl : MonoBehaviour
 			float num5 = Wheel.getWheelCollider().rpm * ((float)Math.PI / 180f);
 			brakeSlip += num5 * num5 * 0.0008f / brakeForceFactor;
 		}
-		if (base.rigidbody.velocity.sqrMagnitude > sqrMaxSpeed)
+		if (base.GetComponent<Rigidbody>().velocity.sqrMagnitude > sqrMaxSpeed)
 		{
 			num3 = 0f;
 		}

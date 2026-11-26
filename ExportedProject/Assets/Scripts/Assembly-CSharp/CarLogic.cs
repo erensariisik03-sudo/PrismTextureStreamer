@@ -95,7 +95,7 @@ public class CarLogic : MonoBehaviour
 	{
 		get
 		{
-			return Vector3.Dot(base.rigidbody.velocity, base.transform.forward);
+			return Vector3.Dot(base.GetComponent<Rigidbody>().velocity, base.transform.forward);
 		}
 	}
 
@@ -125,13 +125,13 @@ public class CarLogic : MonoBehaviour
 	{
 		if (state)
 		{
-			base.rigidbody.velocity = Vector3.zero;
-			base.rigidbody.angularVelocity = Vector3.zero;
-			base.rigidbody.constraints = (RigidbodyConstraints)42;
+			base.GetComponent<Rigidbody>().velocity = Vector3.zero;
+			base.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+			base.GetComponent<Rigidbody>().constraints = (RigidbodyConstraints)42;
 		}
 		else
 		{
-			base.rigidbody.constraints = RigidbodyConstraints.None;
+			base.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 		}
 	}
 

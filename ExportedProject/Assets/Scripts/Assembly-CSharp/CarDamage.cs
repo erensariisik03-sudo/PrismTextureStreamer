@@ -174,7 +174,7 @@ public class CarDamage : MonoBehaviour
 	{
 		if (DeformColliders.Length > 0)
 		{
-			Vector3 centerOfMass = base.rigidbody.centerOfMass;
+			Vector3 centerOfMass = base.GetComponent<Rigidbody>().centerOfMass;
 			for (int i = 0; i < DeformColliders.Length; i++)
 			{
 				Mesh mesh = new Mesh();
@@ -184,7 +184,7 @@ public class CarDamage : MonoBehaviour
 				mesh.RecalculateBounds();
 				DeformColliders[i].sharedMesh = mesh;
 			}
-			base.rigidbody.centerOfMass = centerOfMass;
+			base.GetComponent<Rigidbody>().centerOfMass = centerOfMass;
 		}
 	}
 
@@ -222,7 +222,7 @@ public class CarDamage : MonoBehaviour
 			}
 			if (DeformColliders.Length > 0)
 			{
-				Vector3 centerOfMass = base.rigidbody.centerOfMass;
+				Vector3 centerOfMass = base.GetComponent<Rigidbody>().centerOfMass;
 				for (int i = 0; i < DeformColliders.Length; i++)
 				{
 					Mesh mesh = new Mesh();
@@ -231,7 +231,7 @@ public class CarDamage : MonoBehaviour
 					DeformMesh(mesh, m_colliderData[i].permaVerts, DeformColliders[i].transform, contactPoint, contactForce);
 					DeformColliders[i].sharedMesh = mesh;
 				}
-				base.rigidbody.centerOfMass = centerOfMass;
+				base.GetComponent<Rigidbody>().centerOfMass = centerOfMass;
 			}
 			contactForce *= 0.5f;
 		}
