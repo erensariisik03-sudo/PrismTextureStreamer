@@ -127,4 +127,83 @@ for dp, _, fns in os.walk(assets):
         if n != s:
             open(p, "w", encoding="utf-8").write(n)
 
+# 6) Ilk build'in derleme hatalari icin duzeltmeler
+# 6a) Cift AssemblyInfo.cs (Unity kendisi uretiyor)
+for dp, _, fns in os.walk(assets):
+    if os.path.basename(dp) == "Properties":
+        for fn in fns:
+            if fn.startswith("AssemblyInfo.cs"):
+                os.remove(os.path.join(dp, fn)); bump("assemblyinfo")
+
+# 6b) Unity 4'teki UnityEngine.RPC attribute'u Unity 5+'ta yok: kendi tanimimiz
+rpc = os.path.join(assets, "Plugins", "Assembly-CSharp-firstpass", "RPC.cs")
+os.makedirs(os.path.dirname(rpc), exist_ok=True)
+open(rpc, "w").write("using System;\n\n[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]\npublic class RPC : Attribute\n{\n}\n")
+
+# 6c) UnityScript/Boo calisma zamani bagimliliklarini kaynaktan cikar
+def edit(rel_glob_name, pairs):
+    for dp, _, fns in os.walk(assets):
+        if rel_glob_name in fns:
+            p = os.path.join(dp, rel_glob_name)
+            t = open(p, encoding="utf-8-sig").read()
+            o = t
+            for a, b in pairs:
+                t = t.replace(a, b)
+            if t != o:
+                open(p, "w", encoding="utf-8").write(t); bump("elle_duzeltme")
+
+edit("DepthOfFieldScatter.cs", [
+    ("using Boo.Lang.Runtime;\n", ""),
+    ("RuntimeServices.EqualityOperator(cbDrawArgs, null)", "(cbDrawArgs == null)"),
+    ("RuntimeServices.EqualityOperator(cbPoints, null)", "(cbPoints == null)")])
+edit("Tonemapping.cs", [
+    ("using UnityScript.Lang;\n", ""),
+    ("Extensions.get_length((System.Array)remapCurve.keys)", "remapCurve.keys.Length")])
+edit("CharacterMotor.cs", [("using Boo.Lang;\n", "")])
+
+# 6d) ILogger belirsizligi (Uniject.ILogger vs UnityEngine.ILogger)
+for dp, _, fns in os.walk(assets):
+    for fn in fns:
+        if not fn.endswith(".cs"): continue
+        p = os.path.join(dp, fn)
+        try: t = open(p, encoding="utf-8-sig").read()
+        except Exception: continue
+        if "using Uniject;" in t and "using UnityEngine;" in t and re.search(r"\bILogger\b", t) \
+                and "using ILogger =" not in t:
+            t = t.replace("using Uniject;", "using Uniject;\nusing ILogger = Uniject.ILogger;", 1)
+            open(p, "w", encoding="utf-8").write(t); bump("ilogger")
+
+# 7) Ikinci dalga: Unity 6'da olmayan eski API'ler
+# 7a) iOS Xcode yardimcilari (UnityEditor.* ad alani, oyuncu kodunda gereksiz)
+xc = os.path.join(assets, "Plugins", "Assembly-CSharp-firstpass", "UnityEditor")
+if os.path.isdir(xc):
+    shutil.rmtree(xc); bump("xcode_klasoru")
+    if os.path.exists(xc + ".meta"): os.remove(xc + ".meta")
+
+# 7b) Eski GUITexture (kaldirildi) icin bos uyumluluk sinifi: ayna dokusu alanlari derlensin
+gt = os.path.join(assets, "Plugins", "Assembly-CSharp-firstpass", "GUITexture.cs")
+open(gt, "w").write("using UnityEngine;\n\n// Unity 6'da GUITexture yok; yalnizca derleme icin.\npublic class GUITexture : MonoBehaviour\n{\n\tpublic Texture texture;\n\tpublic Color color = Color.white;\n\tpublic Rect pixelInset;\n}\n")
+
+# 7c) Genel regex duzeltmeleri
+GEN = [
+    (re.compile(r"\bScreen\.showCursor\s*=\s*([^;]+);"), r"Cursor.visible = \1;"),
+    (re.compile(r"\bScreen\.lockCursor\s*=\s*true;"), "Cursor.lockState = CursorLockMode.Locked;"),
+    (re.compile(r"\bScreen\.lockCursor\s*=\s*false;"), "Cursor.lockState = CursorLockMode.None;"),
+    (re.compile(r"\.castShadows\s*=\s*true;"), ".shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;"),
+    (re.compile(r"\.castShadows\s*=\s*false;"), ".shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;"),
+    (re.compile(r"Application\.RegisterLogCallback\(([A-Za-z_][\w.]*)\)"), r"Application.logMessageReceived += \1"),
+]
+for dp, _, fns in os.walk(assets):
+    if os.path.basename(dp) == "Editor": continue
+    for fn in fns:
+        if not fn.endswith(".cs") or fn == "BuildScript.cs": continue
+        p = os.path.join(dp, fn)
+        try: t = open(p, encoding="utf-8-sig").read()
+        except Exception: continue
+        o = t
+        for rx, rep in GEN:
+            t = rx.sub(rep, t)
+        if t != o:
+            open(p, "w", encoding="utf-8").write(t); bump("genel_duzeltme")
+
 print("prepare.py tamam:", stats)
